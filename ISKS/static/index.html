@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI TRPG: Abyss</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="game-container">
+
+        <div id="left-col">
+            <div id="log-window">
+                <div class="log-entry">[시스템] 게임에 접속했습니다.</div>
+                <div class="log-entry">[시스템] 던전 데이터를 불러옵니다...</div>
+                <div class="log-entry log-highlight">! 경고: 어둠의 숲에 진입했습니다.</div>
+            </div>
+
+            <div id="stat-window" class="panel">
+                <div class="panel-title">STATUS</div>
+
+                <div class="stat-row">
+                    <span>HP</span> <span id="hp-text">75/75</span>
+                </div>
+                <div class="bar-container">
+                    <div class="hp-bar" style="width: 100%;"></div>
+                </div>
+
+                <div class="stat-row" style="margin-top:10px;">
+                    <span>MP</span> <span id="mp-text">75/75</span>
+                </div>
+                <div class="bar-container">
+                    <div class="mp-bar" style="width: 100%;"></div>
+                </div>
+
+                <hr style="border: 0; border-top: 1px solid #333; margin: 15px 0;">
+
+                <div class="stat-row" id="row-courage" data-stat="courage" data-val="5">
+                    <span>용기 (Courage)</span> <span class="stat-val">5</span>
+                </div>
+                <div class="stat-row" id="row-wisdom" data-stat="wisdom" data-val="5">
+                    <span>지혜 (Wisdom)</span> <span class="stat-val">5</span>
+                </div>
+                <div class="stat-row" id="row-temperance" data-stat="temperance" data-val="5">
+                    <span>절제 (Temperance)</span> <span class="stat-val">5</span>
+                </div>
+                <div class="stat-row" id="row-justice" data-stat="justice" data-val="1">
+                    <span>정의 (Justice)</span> <span class="stat-val">1</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="center-col">
+            <div id="info-bar">
+                <span id="location-name">📍 어둠의 숲 입구</span>
+                <span id="game-time">Day 1 - 09:00 AM</span>
+            </div>
+
+
+            <div id="main-screen">
+                <div class="monster-card">
+                    <div class="status-text">HP: 100/100</div>
+
+                    <div class="status-text">MP: 50/50</div>
+
+                    <pre class="monster-art">
+ ,     ,
+ |\___/|
+( .   . )
+ \  ^  /
+  V___V
+        </pre>
+
+                    <div class="monster-name">[ 늑대 A ]</div>
+                </div>
+            </div>
+
+
+
+            <div id="dialogue-area">
+                <div id="story-text">
+                    어둠의 숲 입구에 도착했습니다. 축축한 이끼 냄새가 코를 찌릅니다. <br>
+                    어디선가 짐승의 낮은 울음소리가 들려옵니다. <br><br>
+                    무엇을 하시겠습니까?
+                </div>
+
+                <div id="options-container">
+                    <button class="game-btn">1. 주변을 경계하며 걷는다</button>
+                    <button class="game-btn">2. 숲 안쪽으로 달린다</button>
+                    <button class="game-btn">3. 가방을 확인한다</button>
+                </div>
+
+                <input type="text" id="user-input-box" placeholder="직접 행동을 입력하세요... (예: 돌을 던져서 유인한다)">
+            </div>
+        </div>
+
+        <div id="right-col">
+            <div id="inventory-window" class="grid-panel">
+                <div class="panel-title">INVENTORY</div>
+                <div class="item-grid">
+                    <div class="item-slot">포션</div>
+                    <div class="item-slot">지도</div>
+                    <div class="item-slot"></div>
+                    <div class="item-slot"></div>
+                    <div class="item-slot"></div>
+                    <div class="item-slot"></div>
+                </div>
+            </div>
+
+            <div id="equipment-window" class="grid-panel">
+                <div class="panel-title">EQUIPMENT</div>
+                <div class="item-grid">
+                    <div class="item-slot">무기</div>
+                    <div class="item-slot">갑옷</div>
+                    <div class="item-slot">장신구</div>
+                    <div class="item-slot"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js" defer></script>
+</body>
+
+</html>
