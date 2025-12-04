@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이세계 시뮬레이션</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div id="start-overlay">
+        
+        <div id="start-content-wrapper">
+            <pre class="title-art">
+  _____  _____  ______  _   __           _   
+ |_   _|/ ____||  ____|| | / /    /\    | |  
+   | | | (___  | |__   | |/ /    /  \   | |  
+   | |  \___ \ |  __|  |   <    / /\ \  | |  
+  _| |_ ____) || |____ | |\ \  / ____ \ |_|  
+ |_____|_____/ |______||_| \_\/_/    \_\|_|  
+           S I M U L A T I O N
+            </pre>
+            
+            <div class="intro-text">"눈을 떠보니, 검은 하늘 아래 낯선 세계가 펼쳐져 있었다."</div>
+            
+            <div id="main-menu" class="menu-box">
+                <button id="btn-start" class="menu-btn">1. 전생하기 (New Game)</button>
+                <button id="btn-load" class="menu-btn">2. 기억 떠올리기 (Load)</button>
+                <button id="btn-exit" class="menu-btn">3. 그럼 죽어 (Exit)</button>
+            </div>
+        </div>
+
+        <div id="intro-container" class="hidden fade-in-box">
+            
+            <div id="transition-light">
+                <div class="css-star"></div>
+            </div>
+
+            <div id="intro-sequence" class="intro-box">
+                <div id="intro-speaker" class="speaker-name">[ 빛 ]</div>
+                <div id="intro-dialogue" class="dialogue-text">
+                    </div>
+                
+                <div id="intro-input-area" class="input-area hidden">
+                </div>
+                
+                <button id="btn-next-step" class="next-btn hidden">▼ 다음</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="game-container">
+
+        <div id="left-col">
+            <div id="log-window">
+                <div class="log-entry">[시스템] 게임에 접속했습니다.</div>
+                <div class="log-entry">[시스템] 서버 연결 대기 중...</div>
+            </div>
+
+            <div id="stat-window" class="panel">
+                <div class="panel-title">STATUS</div>
+
+                <div class="stat-row">
+                    <span>HP</span> <span id="hp-text">75/75</span>
+                </div>
+                <div class="bar-container">
+                    <div class="hp-bar" style="width: 100%;"></div>
+                </div>
+
+                <div class="stat-row" style="margin-top:10px;">
+                    <span>MP</span> <span id="mp-text">75/75</span>
+                </div>
+                <div class="bar-container">
+                    <div class="mp-bar" style="width: 100%;"></div>
+                </div>
+
+                <hr style="border: 0; border-top: 1px solid #999; margin: 15px 0;">
+
+                <div class="stat-row" id="row-courage" data-stat="courage" data-val="5">
+                    <span>용기 (Courage)</span> <span class="stat-val">5</span>
+                </div>
+                <div class="stat-row" id="row-wisdom" data-stat="wisdom" data-val="5">
+                    <span>지혜 (Wisdom)</span> <span class="stat-val">5</span>
+                </div>
+                <div class="stat-row" id="row-temperance" data-stat="temperance" data-val="5">
+                    <span>절제 (Temperance)</span> <span class="stat-val">5</span>
+                </div>
+                <div class="stat-row" id="row-justice" data-stat="justice" data-val="1">
+                    <span>정의 (Justice)</span> <span class="stat-val">1</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="center-col">
+            <div id="info-bar">
+                <span id="location-name">📍 ???</span>
+                <span id="game-time">Day 1 - 09:00 AM</span>
+            </div>
+
+            <div id="main-screen">
+                <div style="color:#666; margin-top:50px;">(아직 아무것도 보이지 않습니다)</div>
+            </div>
+
+            <div id="dialogue-area">
+                <div id="story-text">
+                    </div>
+
+                <div id="options-container">
+                    <button id="btn-attack" class="game-btn">⚔️ 공격</button>
+                    <button id="btn-defend" class="game-btn">🛡️ 방어</button>
+                    <button id="btn-run" class="game-btn">🏃 도망</button>
+                </div>
+
+                <input type="text" id="user-input-box" placeholder="행동을 입력하세요...">
+            </div>
+        </div>
+
+        <div id="right-col">
+            <div id="inventory-window" class="grid-panel">
+                <div class="panel-title">INVENTORY</div>
+                <div class="item-grid">
+                    <div class="item-slot"></div>
+                    <div class="item-slot"></div>
+                    <div class="item-slot"></div>
+                    <div class="item-slot"></div>
+                    <div class="item-slot"></div>
+                    <div class="item-slot"></div>
+                </div>
+            </div>
+
+            <div id="equipment-window" class="grid-panel">
+                <div class="panel-title">EQUIPMENT</div>
+                <div class="item-grid">
+                    <div class="item-slot">무기</div>
+                    <div class="item-slot">갑옷</div>
+                    <div class="item-slot">장신구</div>
+                    <div class="item-slot"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js" defer></script>
+</body>
+</html>

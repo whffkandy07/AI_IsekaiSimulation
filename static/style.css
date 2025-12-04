@@ -1,0 +1,329 @@
+/* --- 1. 기본 스타일 (Reset & Theme) --- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    background-color: #000;
+    color: #fff;
+    font-family: 'Courier New', monospace;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* --- 2. 전체 레이아웃 (Grid) --- */
+.game-container {
+    display: grid;
+    grid-template-columns: 250px 1fr 250px;
+    width: 98vw;
+    height: 95vh;
+    border: 2px solid #444;
+    gap: 5px;
+    background-color: #000;
+}
+
+/* --- 3. 공통 패널 스타일 --- */
+.panel, .grid-panel {
+    border: 1px solid #fff;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- 4. 왼쪽 패널 --- */
+#left-col { display: grid; grid-template-rows: 1.5fr 1fr; gap: 5px; border: none; padding: 0; }
+
+#log-window {
+    border: 1px solid #fff;
+    overflow-y: auto;
+    font-size: 12px;
+    padding: 10px;
+    color: #aaa;
+}
+.log-entry { margin-bottom: 5px; border-bottom: 1px dashed #333; }
+.log-highlight { color: #f00; font-weight: bold; }
+
+#stat-window { border: 1px solid #fff; font-size: 14px; }
+.stat-row { display: flex; justify-content: space-between; margin-bottom: 8px; position: relative; cursor: help; }
+
+/* 툴팁 */
+.stat-row::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    left: 100%; top: 0;
+    background: rgba(50, 50, 50, 0.95);
+    color: #fff;
+    padding: 6px 10px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    white-space: pre;
+    font-size: 11px;
+    z-index: 100;
+    display: none;
+    width: max-content;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+    margin-left: 10px;
+}
+.stat-row:hover::after { display: block; }
+
+.bar-container { width: 100%; background: #333; height: 10px; margin-top: 5px; border: 1px solid #555; }
+.hp-bar { width: 100%; height: 100%; background: #c0392b; transition: width 0.3s; }
+.mp-bar { width: 100%; height: 100%; background: #2980b9; transition: width 0.3s; }
+
+/* --- 5. 중앙 패널 --- */
+#center-col { display: flex; flex-direction: column; gap: 5px; border: none; padding: 0; }
+
+#info-bar {
+    height: 40px; border: 1px solid #fff;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 15px; font-weight: bold;
+}
+
+#main-screen {
+    flex-grow: 1; border: 1px solid #fff;
+    position: relative; background: #000;
+    display: flex; justify-content: center; align-items: center;
+}
+.monster-card {
+    width: 220px;       
+    height: auto;
+    border: 2px solid #fff; 
+    border: none;
+    margin: 15px;
+    background-color: #000;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 10px; 
+}
+
+.status-text {
+    font-family: 'Courier New', monospace;
+    font-size: 16px;    
+    font-weight: bold;
+    margin-bottom: 4px;
+    width: 100%;
+    text-align: center;
+    padding-bottom: 2px;
+}
+
+.monster-art {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace; 
+    font-size: 16px;     
+    line-height: 1.2;    
+    white-space: pre;    
+    text-align: left;
+    margin: 15px 0;      
+    overflow: hidden;
+    font-weight: bold;   
+}
+.monster-name { font-size: 12px; margin-top: 5px; text-decoration: underline; }
+
+#dialogue-area {
+    height: 250px; border: 1px solid #fff;
+    display: flex; flex-direction: column; padding: 15px;
+}
+#story-text { flex-grow: 1; overflow-y: auto; margin-bottom: 10px; font-size: 16px; line-height: 1.6; }
+
+#options-container { display: flex; gap: 10px; margin-bottom: 10px; }
+.game-btn { flex: 1; padding: 10px; background: #333; color: white; border: 1px solid #fff; cursor: pointer; }
+.game-btn:hover { background: #555; }
+
+#user-input-box { width: 100%; padding: 10px; background: #000; color: #fff; border: 1px solid #fff; font-family: inherit; }
+
+/* --- 6. 오른쪽 패널 --- */
+#right-col { display: grid; grid-template-rows: 1fr 1fr; gap: 5px; border: none; padding: 0; }
+.panel-title { text-align: center; border-bottom: 1px solid #555; padding-bottom: 5px; margin-bottom: 10px; color: #aaa; }
+.item-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.item-slot {
+    aspect-ratio: 1; border: 1px solid #666; border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; color: #555; cursor: pointer;
+}
+.item-slot:hover { border-color: #fff; }
+
+/* --- 7. 시작 화면 (Start Overlay) --- */
+#start-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background-color: #000;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    transition: opacity 1.5s ease-out;
+}
+
+/* (A) 타이틀 & 메뉴 래퍼 */
+#start-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: opacity 2s ease-in-out; 
+}
+
+.title-art {
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    color: #c0392b;
+    text-shadow: 2px 2px 5px rgba(192, 57, 43, 0.5);
+}
+@media (min-width: 800px) { .title-art { font-size: 20px; } }
+
+.intro-text {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 40px;
+    font-style: italic;
+}
+
+.menu-box { display: flex; flex-direction: column; gap: 15px; width: 300px; text-align: center; }
+.menu-btn {
+    padding: 15px;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    background: transparent;
+    color: #fff;
+    border: 1px solid #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.menu-btn:hover { background: #fff; color: #000; font-weight: bold; }
+
+/* (B) 인트로 컨테이너 (빛 + 대화창) */
+#intro-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    width: 100%;
+}
+
+.fade-in-box {
+    animation: fadeIn 2s forwards;
+    opacity: 0;
+}
+@keyframes fadeIn { to { opacity: 1; } }
+
+/* --- [NEW] 빛과 후광 효과 (Light & Halo) --- */
+
+/* 1. 빛의 컨테이너 */
+#transition-light {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 120px;
+    height: 120px;
+}
+
+/* 2. 둥근 후광 (Halo) - 수정됨 */
+#transition-light::before {
+    content: "";
+    position: absolute;
+    /* 정확한 중앙 정렬을 위해 top/left 지정 */
+    top: 50%;
+    left: 50%;
+    width: 600px;  /* 크기 증가 */
+    height: 600px;
+    
+    /* 더 밝은 그라데이션으로 변경 */
+    background: radial-gradient(circle, 
+        rgba(255, 255, 255, 0.5) 0%,      /* 중심부 밝게 */
+        rgba(241, 196, 15, 0.3) 30%,      /* 금빛 */
+        rgba(211, 84, 0, 0.1) 60%,        /* 외곽 붉은기 */
+        transparent 70%
+    );
+    
+    border-radius: 50%;
+    z-index: -1;
+    
+    /* 애니메이션 적용 */
+    animation: halo-pulse 4s infinite ease-in-out;
+}
+
+/* 3. 4각 별 (Star) */
+.css-star {
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, #ffffff 10%, #fffacd 30%, #f1c40f 70%, #d35400 100%);
+    clip-path: polygon(50% 0%, 63% 37%, 100% 50%, 63% 63%, 50% 100%, 37% 63%, 0% 50%, 37% 37%);
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.9)) 
+            drop-shadow(0 0 30px rgba(241, 196, 15, 0.8));
+    animation: star-pulse 4s infinite ease-in-out;
+}
+
+/* [중요] 애니메이션 키프레임 수정: translate(-50%, -50%) 유지 */
+@keyframes halo-pulse {
+    0% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0.6;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+        opacity: 0.9;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0.6;
+    }
+}
+
+@keyframes star-pulse {
+    0% { transform: scale(0.95); opacity: 0.9; }
+    50% { transform: scale(1.05); opacity: 1; }
+    100% { transform: scale(0.95); opacity: 0.9; }
+}
+
+/* (C) 인트로 대화창 */
+.intro-box {
+    width: 500px;
+    max-width: 90%;
+    text-align: center;
+}
+.speaker-name {
+    color: #f1c40f;
+    font-weight: bold;
+    margin-bottom: 15px;
+    font-size: 18px;
+    text-shadow: 0 0 10px #f1c40f;
+}
+.dialogue-text {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    min-height: 60px;
+}
+.input-area {
+    margin-bottom: 20px;
+    border-top: 1px solid #333;
+    padding-top: 20px;
+}
+.next-btn {
+    background: transparent;
+    border: none;
+    color: #aaa;
+    cursor: pointer;
+    font-size: 14px;
+    animation: blink 1s infinite;
+}
+.next-btn:hover { color: #fff; }
+
+.intro-input {
+    background: #111; border: 1px solid #fff; color: #fff;
+    padding: 10px; font-size: 16px; text-align: center;
+    width: 200px;
+}
+.stat-distribute-row {
+    display: flex; justify-content: space-between;
+    width: 80%; margin: 10px auto; align-items: center;
+}
+
+@keyframes blink { 50% { opacity: 0.3; } }
+.hidden { display: none !important; }
