@@ -108,9 +108,10 @@
                     </div>
 
                 <div id="options-container">
-                    <button id="btn-attack" class="game-btn">⚔️ 공격</button>
-                    <button id="btn-defend" class="game-btn">🛡️ 방어</button>
-                    <button id="btn-run" class="game-btn">🏃 도망</button>
+                    <button id="btn-physical" class="game-btn">⚔️ 물리 공격</button>
+                    <button id="btn-magic" class="game-btn">✨ 마법 공격</button>
+                    <button id="btn-item" class="game-btn">💊 아이템</button>
+                    <button id="btn-run" class="game-btn">🏃 도주</button>
                 </div>
 
                 <input type="text" id="user-input-box" placeholder="행동을 입력하세요...">
@@ -140,8 +141,12 @@
                 </div>
             </div>
         </div>
-
     </div>
+    <audio id="bgm-battle" loop>
+        <source src="battle.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="sfx-attack" src="attack.mp3"></audio>
+    <audio id="sfx-magic" src="magic.mp3"></audio>
 
     <script src="script.js" defer></script>
 </body>
