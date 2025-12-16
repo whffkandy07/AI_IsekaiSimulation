@@ -30,18 +30,45 @@ body {
     flex-direction: column;
 }
 
-/* --- 4. 왼쪽 패널 --- */
-#left-col { display: grid; grid-template-rows: 1.5fr 1fr; gap: 5px; border: none; padding: 0; }
-
+/* 1. 왼쪽 패널 레이아웃 수정 (밀림 방지 핵심) */
+#left-col { 
+    display: grid; 
+    /* 기존: auto 1fr -> 수정: 1fr 280px */
+    /* 로그 창이 남은 공간(1fr)을 다 쓰고, 스테이터스 창은 280px 고정 */
+    grid-template-rows: 1fr 280px; 
+    gap: 5px; 
+    border: none; 
+    padding: 0; 
+    height: 100%; /* 부모 높이 꽉 채우기 */
+    overflow: hidden; /* 넘치는 것 방지 */
+}
 #log-window {
     border: 1px solid #fff;
-    overflow-y: auto;
+
+    /* 스크롤 항상 허용 */
+    overflow-y: scroll;
+    /* 높이는 그리드(1fr)에 의해 자동 결정되므로 height 삭제 혹은 100% */
+    height: 100%;
+
     font-size: 12px;
     padding: 10px;
-    color: #aaa;
+
+    /* [요청] 무조건 회색 */
+    color: #aaa; 
 }
+
+/* 스크롤바 디자인 */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #111; }
+::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #666; }
+
 .log-entry { margin-bottom: 5px; border-bottom: 1px dashed #333; }
-.log-highlight { color: #f00; font-weight: bold; }
+/* 기존 빨간색 강조 클래스도 회색으로 덮어쓰기 */
+.log-highlight { 
+    color: #aaa !important; 
+    font-weight: normal; 
+}
 
 #stat-window { border: 1px solid #fff; font-size: 14px; }
 .stat-row { display: flex; justify-content: space-between; margin-bottom: 8px; position: relative; cursor: help; }
@@ -74,9 +101,11 @@ body {
 #center-col { display: flex; flex-direction: column; gap: 5px; border: none; padding: 0; }
 
 #info-bar {
-    height: 40px; border: 1px solid #fff;
+    /* height: 40px; border: 1px solid #fff;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 0 15px; font-weight: bold;
+    padding: 0 15px; font-weight: bold; */
+    /* [수정] 테두리를 없애거나, 아래쪽에만 구분선을 남김 */
+    border: none;
 }
 
 #main-screen {
@@ -85,17 +114,17 @@ body {
     display: flex; justify-content: center; align-items: center;
 }
 .monster-card {
-    width: 220px;       
-    height: auto;
-    border: 2px solid #fff; 
+    /* [수정] 너비와 여백을 줄여서 작게 만듦 */
+    width: 180px;       
+    margin: 5px;
+    padding: 10px 5px; 
+
     border: none;
-    margin: 15px;
     background-color: #000;
     color: #fff;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px 10px; 
 }
 
 .status-text {
@@ -110,24 +139,67 @@ body {
 
 .monster-art {
     font-family: 'Consolas', 'Monaco', 'Courier New', monospace; 
-    font-size: 16px;     
+
+    /* [수정] 폰트 크기 16px -> 12px 로 축소 */
+    font-size: 12px;     
+
     line-height: 1.2;    
     white-space: pre;    
     text-align: left;
-    margin: 15px 0;      
+    margin: 10px 0;      
     overflow: hidden;
     font-weight: bold;   
 }
 .monster-name { font-size: 12px; margin-top: 5px; text-decoration: underline; }
 
 #dialogue-area {
-    height: 250px; border: 1px solid #fff;
+    /* [수정] 높이를 픽셀 대신 화면 비율(vh)로 설정하여 텍스트 공간 확보 */
+    height: 45vh; 
+
+    border: 1px solid #fff;
     display: flex; flex-direction: column; padding: 15px;
 }
-#story-text { flex-grow: 1; overflow-y: auto; margin-bottom: 10px; font-size: 16px; line-height: 1.6; }
 
-#options-container { display: flex; gap: 10px; margin-bottom: 10px; }
-.game-btn { flex: 1; padding: 10px; background: #333; color: white; border: 1px solid #fff; cursor: pointer; }
+/* [수정됨] 중앙 텍스트 박스: 흰색 글씨, 가독성 향상 */
+#story-text { 
+    flex-grow: 1; 
+    overflow-y: auto; 
+    margin-bottom: 10px; 
+
+    font-size: 16px; 
+    line-height: 1.8; 
+    color: #ffffff; /* 완전한 흰색 */
+
+    padding: 10px;
+    background-color: rgba(20, 20, 20, 0.5);
+    border: 1px solid #333;
+    border-radius: 4px;
+}
+
+#options-container { 
+    /* display: flex;  [수정] 2x2 그리드 레이아웃 */ 
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 가로 2칸 */
+    grid-template-rows: 1fr 1fr;    /* 세로 2칸 */
+    gap: 10px; 
+    margin-bottom: 10px; 
+    height: 100px; /* 버튼 영역 높이 고정 (필요시 조절) */
+}
+
+.game-btn { 
+    padding: 10px; 
+    background: #333; 
+    color: white; 
+    border: 1px solid #fff; 
+    cursor: pointer; 
+
+    /* [추가] 텍스트 정렬 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+}
 .game-btn:hover { background: #555; }
 
 #user-input-box { width: 100%; padding: 10px; background: #000; color: #fff; border: 1px solid #fff; font-family: inherit; }
@@ -212,8 +284,6 @@ body {
 @keyframes fadeIn { to { opacity: 1; } }
 
 /* --- [NEW] 빛과 후광 효과 (Light & Halo) --- */
-
-/* 1. 빛의 컨테이너 */
 #transition-light {
     position: relative;
     display: flex;
@@ -223,56 +293,29 @@ body {
     height: 120px;
 }
 
-/* 2. 둥근 후광 (Halo) - 수정됨 */
 #transition-light::before {
     content: "";
     position: absolute;
-    /* 정확한 중앙 정렬을 위해 top/left 지정 */
-    top: 50%;
-    left: 50%;
-    width: 600px;  /* 크기 증가 */
-    height: 600px;
-    
-    /* 더 밝은 그라데이션으로 변경 */
-    background: radial-gradient(circle, 
-        rgba(255, 255, 255, 0.5) 0%,      /* 중심부 밝게 */
-        rgba(241, 196, 15, 0.3) 30%,      /* 금빛 */
-        rgba(211, 84, 0, 0.1) 60%,        /* 외곽 붉은기 */
-        transparent 70%
-    );
-    
+    top: 50%; left: 50%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.5) 0%, rgba(241, 196, 15, 0.3) 30%, rgba(211, 84, 0, 0.1) 60%, transparent 70%);
     border-radius: 50%;
     z-index: -1;
-    
-    /* 애니메이션 적용 */
     animation: halo-pulse 4s infinite ease-in-out;
 }
 
-/* 3. 4각 별 (Star) */
 .css-star {
-    width: 120px;
-    height: 120px;
+    width: 120px; height: 120px;
     background: radial-gradient(circle, #ffffff 10%, #fffacd 30%, #f1c40f 70%, #d35400 100%);
     clip-path: polygon(50% 0%, 63% 37%, 100% 50%, 63% 63%, 50% 100%, 37% 63%, 0% 50%, 37% 37%);
-    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.9)) 
-            drop-shadow(0 0 30px rgba(241, 196, 15, 0.8));
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 30px rgba(241, 196, 15, 0.8));
     animation: star-pulse 4s infinite ease-in-out;
 }
 
-/* [중요] 애니메이션 키프레임 수정: translate(-50%, -50%) 유지 */
 @keyframes halo-pulse {
-    0% {
-        transform: translate(-50%, -50%) scale(0.8);
-        opacity: 0.6;
-    }
-    50% {
-        transform: translate(-50%, -50%) scale(1.1);
-        opacity: 0.9;
-    }
-    100% {
-        transform: translate(-50%, -50%) scale(0.8);
-        opacity: 0.6;
-    }
+    0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.6; }
+    50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.9; }
+    100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.6; }
 }
 
 @keyframes star-pulse {
@@ -282,48 +325,59 @@ body {
 }
 
 /* (C) 인트로 대화창 */
-.intro-box {
-    width: 500px;
-    max-width: 90%;
-    text-align: center;
-}
-.speaker-name {
-    color: #f1c40f;
-    font-weight: bold;
-    margin-bottom: 15px;
-    font-size: 18px;
-    text-shadow: 0 0 10px #f1c40f;
-}
-.dialogue-text {
-    font-size: 18px;
-    line-height: 1.6;
-    margin-bottom: 30px;
-    min-height: 60px;
-}
-.input-area {
-    margin-bottom: 20px;
-    border-top: 1px solid #333;
-    padding-top: 20px;
-}
-.next-btn {
-    background: transparent;
-    border: none;
-    color: #aaa;
-    cursor: pointer;
-    font-size: 14px;
-    animation: blink 1s infinite;
-}
+.intro-box { width: 500px; max-width: 90%; text-align: center; }
+.speaker-name { color: #f1c40f; font-weight: bold; margin-bottom: 15px; font-size: 18px; text-shadow: 0 0 10px #f1c40f; }
+.dialogue-text { font-size: 18px; line-height: 1.6; margin-bottom: 30px; min-height: 60px; }
+.input-area { margin-bottom: 20px; border-top: 1px solid #333; padding-top: 20px; }
+.next-btn { background: transparent; border: none; color: #aaa; cursor: pointer; font-size: 14px; animation: blink 1s infinite; }
 .next-btn:hover { color: #fff; }
-
-.intro-input {
-    background: #111; border: 1px solid #fff; color: #fff;
-    padding: 10px; font-size: 16px; text-align: center;
-    width: 200px;
-}
-.stat-distribute-row {
-    display: flex; justify-content: space-between;
-    width: 80%; margin: 10px auto; align-items: center;
-}
-
+.intro-input { background: #111; border: 1px solid #fff; color: #fff; padding: 10px; font-size: 16px; text-align: center; width: 200px; }
+.stat-distribute-row { display: flex; justify-content: space-between; width: 80%; margin: 10px auto; align-items: center; }
 @keyframes blink { 50% { opacity: 0.3; } }
 .hidden { display: none !important; }
+
+/* --- 버튼별 고유 색상 디자인 --- */
+
+/* 1. 물리 공격 (빨강 - 힘/공격) */
+#btn-physical { 
+    border-color: #e74c3c; 
+    color: #e74c3c; 
+}
+#btn-physical:hover { 
+    background-color: #e74c3c; 
+    color: #000; /* 호버 시 글자는 검은색으로 */
+    box-shadow: 0 0 10px #e74c3c; /* 빛나는 효과 */
+}
+
+/* 2. 마법 공격 (파랑 - 지능/마법) */
+#btn-magic { 
+    border-color: #3498db; 
+    color: #3498db; 
+}
+#btn-magic:hover { 
+    background-color: #3498db; 
+    color: #000;
+    box-shadow: 0 0 10px #3498db;
+}
+
+/* 3. 아이템 (초록 - 회복/자연) */
+#btn-item { 
+    border-color: #2ecc71; 
+    color: #2ecc71; 
+}
+#btn-item:hover { 
+    background-color: #2ecc71; 
+    color: #000;
+    box-shadow: 0 0 10px #2ecc71;
+}
+
+/* 4. 도주 (회색 - 중립/회피) */
+#btn-run { 
+    border-color: #95a5a6; 
+    color: #95a5a6; 
+}
+#btn-run:hover { 
+    background-color: #95a5a6; 
+    color: #000;
+    box-shadow: 0 0 10px #95a5a6;
+}
